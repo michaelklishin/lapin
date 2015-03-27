@@ -1,4 +1,4 @@
-# Lapin, RabbitMQ client for F#
+# Lapin, RabbitMQ client for FSharp
 
 Nothing to see here yet, move along.
 
