@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lapin", "RabbitMQ.Lapin\Lapin.fsproj", "{9C3D8FEB-96FE-49E5-B5F7-E754225BFBAB}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lapin.Tests", "RabbitMQ.Lapin.Tests\Lapin.Tests.fsproj", "{869FBC3F-08FE-42FB-84C0-6BEA62B78EB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C3D8FEB-96FE-49E5-B5F7-E754225BFBAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3D8FEB-96FE-49E5-B5F7-E754225BFBAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3D8FEB-96FE-49E5-B5F7-E754225BFBAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3D8FEB-96FE-49E5-B5F7-E754225BFBAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{869FBC3F-08FE-42FB-84C0-6BEA62B78EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{869FBC3F-08FE-42FB-84C0-6BEA62B78EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{869FBC3F-08FE-42FB-84C0-6BEA62B78EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{869FBC3F-08FE-42FB-84C0-6BEA62B78EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
