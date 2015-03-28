@@ -1,0 +1,5 @@
+source https://nuget.org/api/v2
+
+nuget FSharp.Core
+nuget RabbitMQ.Client ~> 3.5
+nuget FsUnit
