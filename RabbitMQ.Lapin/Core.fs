@@ -15,6 +15,7 @@ module Types =
     type Arguments  = Option<Map<string, Object>>
 
     let argumentsToIDictionary(args: Arguments): IDictionary<string, Object> =
+        // Map<string, Object> won't accept a null value which some C# methods expect
         match args with
         | Some m -> m |> Map.toSeq |> dict
         | None   -> null
