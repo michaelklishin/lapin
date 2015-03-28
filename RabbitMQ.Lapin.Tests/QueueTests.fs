@@ -60,3 +60,24 @@ module QueueTests =
             let s    = Guid.NewGuid().ToString()
             Lapin.Queue.delete(ch, s, None)
             Lapin.Queue.assertExistence(conn, s) |> should equal false
+
+        [<Test>]
+        member t.``deleteQueue when queue DOES NOT exist is a no-op`` () =
+            use conn = Lapin.Core.connectWithAllDefaults()
+            let ch   = Lapin.Channel.``open``(conn)
+            let s    = Guid.NewGuid().ToString()
+            Lapin.Queue.delete(ch, s, None)
+
+        [<Test>]
+        member t.``deleteQueue when queue exists`` () =
+            use conn = Lapin.Core.connectWithAllDefaults()
+            let ch   = Lapin.Channel.``open``(conn)
+            let s    = "lapin.tests."
+            Lapin.Queue.declare(ch, {name = s;
+                                     durable = false;
+                                     exclusive = false;
+                                     autoDelete = false;
+                                     arguments = None}) |> ignore
+            Lapin.Queue.assertExistence(conn, s) |> should equal true
+            Lapin.Queue.delete(ch, s, None)
+            Lapin.Queue.assertExistence(conn, s) |> should equal false
