@@ -14,15 +14,17 @@ module QueueTests =
 
     [<TestFixture>]
     type QueueTests () =
+        member t.DeclareArgs = {name = Lapin.Queue.ServerGenerated;
+                                durable = false;
+                                exclusive = false;
+                                autoDelete = false;
+                                arguments = None}
+
         [<Test>]
         member t.``queue.declare with server-generated name and default attributes``() =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn)
-            let ok   = Lapin.Queue.declare(ch, {name = Lapin.Queue.ServerGenerated;
-                                                durable = false;
-                                                exclusive = false;
-                                                autoDelete = false;
-                                                arguments = None})
+            let ok   = Lapin.Queue.declare(ch, {t.DeclareArgs with name = Lapin.Queue.ServerGenerated})
             ok.queueName.StartsWith("amq.") |> should equal true
 
         [<Test>]
@@ -30,11 +32,7 @@ module QueueTests =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn)
             let s    = "lapin.tests."
-            let ok   = Lapin.Queue.declare(ch, {name = s;
-                                                durable = false;
-                                                exclusive = false;
-                                                autoDelete = false;
-                                                arguments = None})
+            let ok   = Lapin.Queue.declare(ch, {t.DeclareArgs with name = s})
             ok.queueName |> should equal s
             ok.messageCount |> should equal 0
             ok.consumerCount |> should equal 0
@@ -45,11 +43,7 @@ module QueueTests =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn)
             let s    = "lapin.tests."
-            Lapin.Queue.declare(ch, {name = s;
-                                     durable = false;
-                                     exclusive = false;
-                                     autoDelete = false;
-                                     arguments = None}) |> ignore
+            Lapin.Queue.declare(ch, {t.DeclareArgs with name = s}) |> ignore
             Lapin.Queue.assertExistence(conn, s) |> should equal true
             Lapin.Queue.delete(ch, s, None)
 
@@ -73,11 +67,7 @@ module QueueTests =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn)
             let s    = "lapin.tests."
-            Lapin.Queue.declare(ch, {name = s;
-                                     durable = false;
-                                     exclusive = false;
-                                     autoDelete = false;
-                                     arguments = None}) |> ignore
+            Lapin.Queue.declare(ch, {t.DeclareArgs with name = s}) |> ignore
             Lapin.Queue.assertExistence(conn, s) |> should equal true
             Lapin.Queue.delete(ch, s, None)
             Lapin.Queue.assertExistence(conn, s) |> should equal false
