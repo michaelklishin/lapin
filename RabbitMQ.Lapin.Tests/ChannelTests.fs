@@ -10,7 +10,7 @@ open RabbitMQ.Client
 module ChannelTests =
 
     [<TestFixture>]
-    type ConnectionTests() =
+    type ChannelTests() =
         [<Test>]
         member t.``Opening a channel when channel limit is not reached`` () =
             use conn = Lapin.Core.connectWithAllDefaults()
