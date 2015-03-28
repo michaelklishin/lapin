@@ -52,6 +52,7 @@
     <Compile Include="Core.fs" />
     <Content Include="packages.config" />
     <Compile Include="Channel.fs" />
+    <Compile Include="Queue.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

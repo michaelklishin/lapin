@@ -1,17 +1,33 @@
 ﻿namespace Lapin
 
+open System
+open System.Collections.Generic
 open RabbitMQ.Client
 
-module Core =
-    type Hostname = string
-    type Port = int
+module Types =
+    type Hostname   = string
+    type Port       = int
 
+    type Name       = string
+    type Durable    = bool
+    type Exclusive  = bool
+    type AutoDelete = bool
+    type Arguments  = Option<Map<string, Object>>
+
+    let argumentsToIDictionary(args: Arguments): IDictionary<string, Object> =
+        match args with
+        | Some m -> m |> Map.toSeq |> dict
+        | None   -> null
+
+module Core =
     let DefaultHostname = Some "127.0.0.1"
-    let DefaultPort = Some Protocols.AMQP_0_9_1.DefaultPort
+    let DefaultPort     = Some Protocols.AMQP_0_9_1.DefaultPort
+
+    let [<Literal>] ServerGenerated = ""
 
     type ConnectionOptions = {
-        hostname: Option<Hostname>;
-        port: Option<Port>
+        hostname: Option<Types.Hostname>
+        port: Option<Types.Port>
     }
 
     let defaultConnectionOptions: ConnectionOptions =

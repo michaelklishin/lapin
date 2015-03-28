@@ -58,6 +58,7 @@
     <Content Include="packages.config" />
     <Compile Include="CoreTests.fs" />
     <Compile Include="ChannelTests.fs" />
+    <Compile Include="QueueTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
