@@ -57,6 +57,7 @@
     <None Include="App.config" />
     <Content Include="packages.config" />
     <Compile Include="CoreTests.fs" />
+    <Compile Include="ChannelTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
