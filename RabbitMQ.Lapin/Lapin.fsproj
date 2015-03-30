@@ -54,6 +54,7 @@
     <Compile Include="Channel.fs" />
     <Compile Include="Queue.fs" />
     <Compile Include="Exchange.fs" />
+    <Compile Include="Basic.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">

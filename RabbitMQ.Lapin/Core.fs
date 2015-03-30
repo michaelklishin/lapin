@@ -14,6 +14,9 @@ module Types =
     type AutoDelete = bool
     type Arguments  = Option<Map<string, Object>>
 
+    type Mandatory  = bool
+    type RoutingKey = string
+
     let argumentsToIDictionary(args: Arguments): IDictionary<string, Object> =
         // Map<string, Object> won't accept a null value which some C# methods expect
         match args with
