@@ -14,3 +14,5 @@ bin
 
 scripts/*
 scratch/*
+TestResult.xml
+*/TestResult.xml
