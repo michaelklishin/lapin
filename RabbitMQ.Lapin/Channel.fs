@@ -1,5 +1,6 @@
 ﻿namespace Lapin
 
+open System
 open RabbitMQ.Client
 
 module Channel =
@@ -14,6 +15,8 @@ module Channel =
     let isClosed(ch : IChannel) : bool =
         ch.IsClosed
     let confirmSelect(ch : IChannel) : IChannel =
-        ch.ConfirmSelect |> ignore
+        ch.ConfirmSelect() |> ignore
         ch
     let enablePublisherConfirms = confirmSelect
+    let waitForConfirms(ch : IChannel, timeout: TimeSpan): bool =
+        ch.WaitForConfirms(timeout)
