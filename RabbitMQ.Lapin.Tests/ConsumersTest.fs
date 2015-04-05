@@ -7,38 +7,14 @@ open FsUnit
 open Lapin.Channel
 open Lapin.Queue
 open Lapin.Exchange
-open Lapin.Basic
 open Lapin.Consumers
+open Lapin.Tests
 open System.Threading
 
 module ConsumersTests =
     [<TestFixture>]
     type ConsumersTests() =
-        let defaultFanout = "lapin.tests.fanout"
-        let enc = Encoding.UTF8
-        let defaultTimespan = TimeSpan.FromSeconds(5.0)
-
-        member t.ExchangeDeclareArgs =
-            { name = defaultFanout
-              ``type`` = Fanout
-              durable = false
-              autoDelete = false
-              arguments = None }
-
-        member t.declareTemporaryQueueBoundToDefaultFanout(ch: IChannel): Lapin.Types.Name =
-            let q = Guid.NewGuid().ToString()
-            Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
-            Lapin.Queue.declare(ch, { name = q
-                                      durable = false
-                                      exclusive = false
-                                      autoDelete = false
-                                      arguments = None })
-            |> ignore
-            Lapin.Queue.bind(ch, { exchange = defaultFanout
-                                   queue = q
-                                   routingKey = ""
-                                   arguments = None })
-            q
+        inherit IntegrationTest()
 
         [<Test>]
         member t.``basic.consume and defaultConsumerFrom``() =
@@ -46,7 +22,7 @@ module ConsumersTests =
             let ch   = Lapin.Channel.``open``(conn) |> enablePublisherConfirms
             Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
             let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
-            let body = enc.GetBytes("msg")
+            let body = t.enc.GetBytes("msg")
             let latch = new ManualResetEvent(false)
 
             let fn    = fun ch tag envelope properties body -> latch.Set() |> ignore
@@ -57,7 +33,7 @@ module ConsumersTests =
                                                                  consumeOkHandler = None})
             Lapin.Basic.consumeAutoAck(ch, q, cons) |> ignore
             Lapin.Basic.publish(ch,
-                                { exchange = defaultFanout
+                                { exchange = t.defaultFanout
                                   routingKey = "" }, body, None)
-            Lapin.Channel.waitForConfirms(ch, defaultTimespan) |> should equal true
-            latch.WaitOne(defaultTimespan) |> should equal true
+            Lapin.Channel.waitForConfirms(ch, t.defaultTimespan) |> should equal true
+            latch.WaitOne(t.defaultTimespan) |> should equal true
