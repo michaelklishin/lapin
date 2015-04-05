@@ -17,11 +17,32 @@ module Types =
     type Mandatory  = bool
     type RoutingKey = string
 
+    type ExchangeAndRoutingKey = {
+        exchange: Name
+        routingKey: RoutingKey
+    }
+    type Metadata = {
+        mandatory: Mandatory
+        properties: Option<IBasicProperties>
+    }
+
     let argumentsToIDictionary(args: Arguments): IDictionary<string, Object> =
         // Map<string, Object> won't accept a null value which some C# methods expect
         match args with
         | Some m -> m |> Map.toSeq |> dict
         | None   -> null
+
+    type ConsumerTag = string
+    type DeliveryTag = uint64
+    type Envelope = {
+        deliveryTag: DeliveryTag
+        redelivered: bool
+        exchange: Name
+        routingKey: RoutingKey
+    }
+    type Body = byte[]
+
+    type ShutdownHandler = Object -> ShutdownEventArgs -> unit
 
 module Core =
     let DefaultHostname = Some "127.0.0.1"

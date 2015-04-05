@@ -11,7 +11,7 @@ open Lapin.Basic
 
 module PublishingTests =
     [<TestFixture>]
-    type ExchangeTests() =
+    type PublishingTests() =
         let defaultFanout = "lapin.tests.fanout"
         let enc = Encoding.UTF8
         let defaultTimespan = TimeSpan.FromSeconds(5.0)
@@ -51,6 +51,7 @@ module PublishingTests =
         member t.``basic.publish with mandatory = true to an existing exchange with a queue bound``() =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn) |> enablePublisherConfirms
+            Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
             let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
             Lapin.Queue.messageCount(ch, q) |> should equal 0
             Lapin.Basic.publish(ch, { exchange = defaultFanout
@@ -64,6 +65,7 @@ module PublishingTests =
         member t.``basic.publish followed by basic.get with automatic ack``() =
             use conn = Lapin.Core.connectWithAllDefaults()
             let ch   = Lapin.Channel.``open``(conn) |> enablePublisherConfirms
+            Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
             let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
             let body = enc.GetBytes("msg")
             Lapin.Basic.publish(ch, { exchange = defaultFanout
