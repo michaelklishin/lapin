@@ -68,8 +68,7 @@ module PublishingTests =
             let body = enc.GetBytes("msg")
             Lapin.Basic.publish(ch, { exchange = defaultFanout
                                       routingKey = "" }, body,
-                                Some { mandatory = true
-                                       properties = None })
+                                None)
             Lapin.Channel.waitForConfirms(ch, defaultTimespan) |> should equal true
             let resp = Lapin.Basic.getAutoAck(ch, q)
             resp.body |> should equal body
