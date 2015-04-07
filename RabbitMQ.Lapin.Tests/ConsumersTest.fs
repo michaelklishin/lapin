@@ -37,3 +37,23 @@ module ConsumersTests =
                                   routingKey = "" }, body, None)
             Lapin.Channel.waitForConfirms(ch, t.defaultTimespan) |> should equal true
             latch.WaitOne(t.defaultTimespan) |> should equal true
+            Lapin.Queue.delete(ch, q, None)
+
+        [<Test>]
+        member t.``basic.consume-ok handler``() =
+            use conn = Lapin.Core.connectWithAllDefaults()
+            let ch   = Lapin.Channel.``open``(conn) |> enablePublisherConfirms
+            Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
+            let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
+            let latch = new ManualResetEvent(false)
+
+            let fn    = fun ch tag envelope properties body -> body |> ignore
+            let okFn  = fun ch tag -> latch.Set() |> ignore
+            let cons  = Lapin.Consumers.defaultConsumerFrom(ch, {deliveryHandler  = fn;
+                                                                 cancelHandler    = None;
+                                                                 cancelOkHandler  = None;
+                                                                 shudownHandler   = None;
+                                                                 consumeOkHandler = Some okFn})
+            let tag = Lapin.Basic.consumeAutoAck(ch, q, cons)
+            latch.WaitOne(t.defaultTimespan) |> should equal true
+            Lapin.Queue.delete(ch, q, None)
