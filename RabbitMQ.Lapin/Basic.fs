@@ -41,8 +41,11 @@ module Basic =
     let getAutoAck(ch: IChannel, queue: Name): GetResponse =
         get(ch, queue, true)
 
-    let consume(ch: IChannel, queue: Name, automaticallyAck: bool, consumer: IBasicConsumer) =
+    let consume(ch: IChannel, queue: Name, automaticallyAck: bool, consumer: IBasicConsumer): string =
         ch.BasicConsume(queue, automaticallyAck, consumer)
 
-    let consumeAutoAck(ch: IChannel, queue: Name, consumer: IBasicConsumer) =
+    let consumeAutoAck(ch: IChannel, queue: Name, consumer: IBasicConsumer): string =
         ch.BasicConsume(queue, true, consumer)
+
+    let cancel(ch: IChannel, consumerTag: ConsumerTag): unit =
+        ch.BasicCancel(consumerTag)

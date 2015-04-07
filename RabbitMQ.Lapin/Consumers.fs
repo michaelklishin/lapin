@@ -28,7 +28,7 @@ module Consumers =
         let channel          = ch
         let deliveryHandler  = opts.deliveryHandler
         let consumeOkHandler = opts.consumeOkHandler
-        let cancelOkHandler  = opts.cancelHandler
+        let cancelOkHandler  = opts.cancelOkHandler
         let cancelHandler    = opts.cancelHandler
         let shutdownHandler  = opts.shudownHandler
 

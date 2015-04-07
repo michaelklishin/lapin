@@ -57,3 +57,23 @@ module ConsumersTests =
             let tag = Lapin.Basic.consumeAutoAck(ch, q, cons)
             latch.WaitOne(t.defaultTimespan) |> should equal true
             Lapin.Queue.delete(ch, q, None)
+
+        [<Test>]
+        member t.``basic.cancel-ok handler``() =
+            use conn = Lapin.Core.connectWithAllDefaults()
+            let ch   = Lapin.Channel.``open``(conn) |> enablePublisherConfirms
+            Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
+            let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
+            let latch = new ManualResetEvent(false)
+
+            let fn    = fun ch tag envelope properties body -> body |> ignore
+            let clFn  = fun ch tag -> latch.Set() |> ignore
+            let cons  = Lapin.Consumers.defaultConsumerFrom(ch, {deliveryHandler  = fn;
+                                                                 cancelHandler    = None;
+                                                                 cancelOkHandler  = Some clFn;
+                                                                 shudownHandler   = None;
+                                                                 consumeOkHandler = None})
+            let tag = Lapin.Basic.consumeAutoAck(ch, q, cons)
+            Lapin.Basic.cancel(ch, tag)
+            latch.WaitOne(t.defaultTimespan) |> should equal true
+            Lapin.Queue.delete(ch, q, None)
