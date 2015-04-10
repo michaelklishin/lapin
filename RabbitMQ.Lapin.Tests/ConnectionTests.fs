@@ -6,7 +6,7 @@ open FsUnit
 open Lapin.Core
 open RabbitMQ.Client
 
-module CoreTests =
+module ConnectionTests =
 
     [<TestFixture>]
     type ConnectionTests() =
