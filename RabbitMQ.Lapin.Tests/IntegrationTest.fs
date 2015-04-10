@@ -6,6 +6,8 @@ open NUnit.Framework
 open Lapin.Channel
 open Lapin.Queue
 open Lapin.Exchange
+open Lapin.Channel
+open RabbitMQ.Client
 
 module Tests =
     [<TestFixture>]
@@ -35,3 +37,8 @@ module Tests =
                                    routingKey = ""
                                    arguments = None })
             q
+
+        member t.WithChannel(fn: IConnection -> IChannel -> unit) =
+            use conn = Lapin.Core.connectWithAllDefaults()
+            let ch   = Lapin.Channel.``open``(conn)
+            fn conn ch
