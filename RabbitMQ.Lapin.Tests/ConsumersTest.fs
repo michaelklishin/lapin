@@ -1,12 +1,8 @@
 ﻿namespace Lapin
 
-open System
-open System.Text
 open NUnit.Framework
 open FsUnit
 open Lapin.Channel
-open Lapin.Queue
-open Lapin.Exchange
 open Lapin.Consumers
 open Lapin.Tests
 open System.Threading

@@ -3,14 +3,14 @@
 open NUnit.Framework
 open FsUnit
 
-open Lapin.Core
-open Lapin.Channel
-open RabbitMQ.Client
+open Lapin.Tests
 
 module ChannelTests =
 
     [<TestFixture>]
     type ChannelTests() =
+        inherit IntegrationTest()
+
         [<Test>]
         member t.``Opening a channel when channel limit is not reached`` () =
             use conn = Lapin.Core.connectWithAllDefaults()
@@ -27,10 +27,9 @@ module ChannelTests =
 
         [<Test>]
         member t.``Channel predicates`` () =
-            use conn = Lapin.Core.connectWithAllDefaults()
-            let ch   = Lapin.Channel.``open``(conn)
-            Lapin.Channel.isOpen(ch) |> should equal true
-            Lapin.Channel.isClosed(ch) |> should equal false
-            Lapin.Channel.close(ch)
-            Lapin.Channel.isOpen(ch) |> should equal false
-            Lapin.Channel.isClosed(ch) |> should equal true
+            t.WithChannel(fun _ ch ->
+                Lapin.Channel.isOpen(ch) |> should equal true
+                Lapin.Channel.isClosed(ch) |> should equal false
+                Lapin.Channel.close(ch)
+                Lapin.Channel.isOpen(ch) |> should equal false
+                Lapin.Channel.isClosed(ch) |> should equal true)

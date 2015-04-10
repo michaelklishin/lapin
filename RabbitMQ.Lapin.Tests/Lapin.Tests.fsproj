@@ -50,11 +50,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="packages.config" />
+    <Compile Include="IntegrationTest.fs" />
     <Compile Include="CoreTests.fs" />
     <Compile Include="ChannelTests.fs" />
     <Compile Include="QueueTests.fs" />
     <Compile Include="ExchangeTests.fs" />
-    <Compile Include="IntegrationTest.fs" />
     <Compile Include="PublishingTests.fs" />
     <Compile Include="ConsumersTest.fs" />
   </ItemGroup>
