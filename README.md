@@ -61,10 +61,28 @@ exceptions that may be thrown.
 
 Alternatively connections can be closed by calling `IConnection.Close` on them.
 
+`Lapin.Core.isOpen` and `Lapin.Core.isClosed` are predicate functions
+with pretty self-explanatory names.
+
 
 ### Opening and Closing Channels
 
-TBD
+Channels are opened with `Lapin.Core.open` and closed with `Lapin.Core.close`:
+
+``` fsharp
+open Lapin.Core
+open Lapin.Channel
+
+let conn = Lapin.Core.connectWithAllDefaults()
+let ch   = Lapin.Channel.open conn
+
+Lapin.Channel.close ch
+Lapin.Core.close conn
+```
+
+`Lapin.Channel.isOpen` and `Lapin.Channel.isClosed` are predicate functions that...
+you knew it!
+
 
 ### Operations on Queues
 
