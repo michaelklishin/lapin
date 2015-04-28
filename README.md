@@ -44,6 +44,24 @@ open Lapin.Core
 let conn = Lapin.Core.connect({hostname = Some "127.0.0.1"; port = Some 5672})
 ```
 
+Connections can be closed with `Lapin.Core.close` and `Lapin.Core.abort`:
+
+``` fsharp
+open Lapin.Core
+
+let conn = Lapin.Core.connectWithAllDefaults()
+Lapin.Core.close conn
+
+let conn2 = Lapin.Core.connectWithAllDefaults()
+Lapin.Core.abort conn2
+```
+
+The difference between the two is in that `Lapin.Core.abort` will ignore any
+exceptions that may be thrown.
+
+Alternatively connections can be closed by calling `IConnection.Close` on them.
+
+
 ### Opening and Closing Channels
 
 TBD
