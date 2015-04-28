@@ -23,6 +23,45 @@ TBD
 
 ## Documentation
 
+Lapin API is organised in a number of modules:
+
+ * `Lapin.Core`: connection functions
+ * `Lapin.Channel`: operations on channels
+ * `Lapin.Queue`: operations on queues
+ * `Lapin.Exchange`: operations on exchanges
+ * `Lapin.Basic`: `basic.*` protocol methods (publishing, acks, etc)
+ * `Lapin.Consumers`: functions related to consumers
+
+
+### Opening and Closing Connections
+
+`Lapin.Core.connect` is a function that takes a `Lapin.Core.ConnectionOptions`
+record with connection settings:
+
+``` fsharp
+open Lapin.Core
+
+let conn = Lapin.Core.connect({hostname = Some "127.0.0.1"; port = Some 5672})
+```
+
+### Opening and Closing Channels
+
+TBD
+
+### Operations on Queues
+
+TBD
+
+### Consuming Messages
+
+TBD
+
+### Operations on Exchanges
+
+TBD
+
+### Publishing
+
 TBD
 
 
