@@ -24,13 +24,13 @@ module ConnectionTests =
 
         member t.``Disconnect with close`` () =
             let conn = Lapin.Core.connectWithAllDefaults()
-            conn.IsOpen |> should equal true
-            Lapin.Core.close conn
-            conn.IsOpen |> should equal false
+            Lapin.Core.isOpen conn |> should equal true
+            Lapin.Core.close conn |> Lapin.Core.isOpen |> should equal false
+            Lapin.Core.isClosed conn |> should equal true
 
         member t.``Disconnect with abort`` () =
             let conn = Lapin.Core.connectWithAllDefaults()
-            conn.IsOpen |> should equal true
+            Lapin.Core.isOpen conn |> should equal true
             // ignores any possible exceptions
-            Lapin.Core.abort conn
-            conn.IsOpen |> should equal false
+            Lapin.Core.abort conn |> Lapin.Core.isOpen |> should equal false
+            Lapin.Core.isClosed conn |> should equal true

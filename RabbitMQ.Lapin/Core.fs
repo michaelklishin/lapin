@@ -82,3 +82,9 @@ module Core =
     let abort(conn: IConnection): IConnection =
         conn.Abort()
         conn
+
+    let isOpen(conn: IConnection): bool =
+        conn.IsOpen
+
+    let isClosed(conn: IConnection): bool =
+        not conn.IsOpen
