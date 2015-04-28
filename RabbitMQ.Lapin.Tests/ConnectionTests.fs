@@ -31,6 +31,6 @@ module ConnectionTests =
         member t.``Disconnect with abort`` () =
             let conn = Lapin.Core.connectWithAllDefaults()
             conn.IsOpen |> should equal true
-            // doesn't wait for server response
+            // ignores any possible exceptions
             Lapin.Core.abort conn
             conn.IsOpen |> should equal false
