@@ -74,3 +74,11 @@ module Core =
 
     let connectWithAllDefaults(): IConnection =
         connect(defaultConnectionOptions)
+
+    let close(conn: IConnection): IConnection =
+        conn.Close()
+        conn
+
+    let abort(conn: IConnection): IConnection =
+        conn.Abort()
+        conn
