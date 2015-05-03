@@ -3,6 +3,7 @@
 open System
 open RabbitMQ.Client
 
+open Lapin.Core
 open Lapin.Channel
 open Lapin.Types
 open Lapin.Exchange
@@ -13,7 +14,7 @@ module Basic =
             match metadata with
             | Some m -> match m with
                            | { Metadata.mandatory = v; Metadata.properties = None }   -> (v, null)
-                           | { Metadata.mandatory = v; Metadata.properties = Some p } -> (v, p)
+                           | { Metadata.mandatory = v; Metadata.properties = Some p } -> (v, messagePropertiesToIBasicProperties(ch, p))
             | None   -> (false, null)
         ch.BasicPublish(endpoint.exchange, endpoint.routingKey, mandatory, props, body)
 
@@ -25,6 +26,17 @@ module Basic =
         messageCount: uint32
         routingContext: ExchangeAndRoutingKey
     }
+
+    let PersistentProps: MessageProps =
+        { deliveryMode = DeliveryMode.Persistent
+          contentEncoding = None
+          contentType = None
+          ``type`` = None
+          priority = Some 0uy
+          expiration = None
+          correlationId = None
+          replyTo = None
+          messageId = None }
 
     let private convertBasicGetToRecord(result: BasicGetResult): GetResponse =
         { properties = result.BasicProperties;

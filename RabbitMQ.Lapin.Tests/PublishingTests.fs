@@ -53,3 +53,17 @@ module PublishingTests =
                 resp.routingContext.routingKey |> should equal ""
                 resp.redelivered |> should equal false
                 Lapin.Queue.delete(ch, q, None))
+
+        [<Test>]
+        member t.``basic.publish with delivery mode = 2 (persistent)``() =
+            t.WithChannel(fun _ ch ->
+                ch |> enablePublisherConfirms |> ignore
+                Lapin.Exchange.declare(ch, t.ExchangeDeclareArgs)
+                let q    = t.declareTemporaryQueueBoundToDefaultFanout(ch)
+                Lapin.Queue.messageCount(ch, q) |> should equal 0
+                Lapin.Basic.publish(ch, { exchange = t.defaultFanout
+                                          routingKey = "" }, t.enc.GetBytes("msg"),
+                                    Some { mandatory = true
+                                           properties = Some(Lapin.Basic.PersistentProps) })
+                Lapin.Queue.messageCount(ch, q) |> should equal 1
+                Lapin.Queue.delete(ch, q, None))

@@ -5,7 +5,6 @@ open RabbitMQ.Client
 
 module Channel =
     type IChannel = IModel
-
     let ``open``(conn : IConnection) : IChannel =
         conn.CreateModel()
     let close(ch : IChannel) =

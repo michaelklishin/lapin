@@ -3,10 +3,10 @@
 open System
 open System.Text
 open NUnit.Framework
+open Lapin.Core
 open Lapin.Channel
 open Lapin.Queue
 open Lapin.Exchange
-open Lapin.Channel
 open RabbitMQ.Client
 
 module Tests =
